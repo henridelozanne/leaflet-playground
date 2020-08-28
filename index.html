@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+   <link rel="stylesheet" href="/styles.css"/>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+</head>
+<body>
+  <h1>Hello</h1>
+  <div id="mapid" style="height: 90%"></div>
+</body>
+</html>
+<script>
+// launch map
+var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+// add layer
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGVucmlkZWxvemFubmUiLCJhIjoiY2p2OXN3cXYzMGpzdjQ1bW1yM3RsMXo1ayJ9.4FNTFEq1qaN6FkYwJ8SjMQ', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'your.mapbox.access.token'
+}).addTo(mymap);
+
+// add marker
+var marker = L.marker([51.5, -0.09]).addTo(mymap);
+
+// add circle
+var circle = L.circle([51.508, -0.11], {
+    color: 'rgba(200, 200, 200, 0.5)',
+    fillColor: 'chartreuse',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(mymap);
+
+// add polygon
+var polygon = L.polygon([
+    [51.509, -0.08],
+    [51.503, -0.06],
+    [51.51, -0.047]
+], {
+  color: 'skyblue'
+}).addTo(mymap);
+
+// add popup to marker/circle/polygon
+marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+circle.bindPopup("I am a circle.");
+polygon.bindPopup("I am a polygon.");
+
+// add popup standalone
+// var popup = L.popup()
+//     .setLatLng([51.5, -0.09])
+//     .setContent("I am a standalone popup.")
+//     .openOn(mymap);
+
+// attach a click event on map
+function onMapClick(e) {
+  console.log("You clicked the map at " + e.latlng);
+}
+
+mymap.on('click', onMapClick);
+</script>
